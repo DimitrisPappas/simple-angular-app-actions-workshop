@@ -46,7 +46,10 @@ jobs:
                 uses: actions/checkout@v3
 
             -   name: Run specs tests
-                run: ng test --no-watch --no-progress --browsers=ChromeHeadless
+                run: | 
+                    CHROME_BIN=$(whict chromium) ng test --browsers=ChromeHeadless --watch=false
+                env: 
+                    CHROME_BIN: /usr/bin/chromium-browser
 
     deploy:
         name: Deploy
