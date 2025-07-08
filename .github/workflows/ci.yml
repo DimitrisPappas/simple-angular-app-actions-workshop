@@ -47,7 +47,7 @@ jobs:
 
             -   name: Run specs tests
                 run: | 
-                    CHROME_BIN=$(whict chromium) npm ng test --browsers=ChromeHeadless --watch=false
+                    CHROME_BIN=$(whict chromium) npm run ng test --browsers=ChromeHeadless --watch=false
                 env: 
                     CHROME_BIN: /usr/bin/chromium-browser
 
