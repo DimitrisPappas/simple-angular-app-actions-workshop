@@ -1,0 +1,66 @@
+name: Exercise Workflow
+on:
+    push: 
+        branches: [ "main" ]
+    
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build: 
+        name: Build Project
+        runs-on: ubuntu-22.04
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v3
+            
+            -   name: Install NodeJS
+                uses: actions/setup-node@v3
+                with: 
+                    node-version: 18
+
+            -   name: Install Packages
+                run: npm ci
+            
+            -   name: Install Angular CLI
+                run: npm install -g @angular/cli
+            
+            -   name: Install Chrome Dependencies
+                run: | 
+                    sudo apt-get update
+                    sudo apt-get install -y libnss3 libxss3 libasound2
+
+            -   name: Upload Artifacts
+                uses: actions/upload-artifact@v4
+                with:
+                    name: dist
+                    path: | 
+                        dist
+                        package.json
+
+    tests:
+        name: Run Tests
+        needs: build
+        runs-on: ubuntu-22.04
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v3
+
+            -   name: Run specs tests
+                run: ng test --no-watch --no-progress --browsers=ChromeHeadless
+
+    deploy:
+        name: Deploy
+        needs: [build, tests]
+        runs-on: ubuntu-22.04
+        steps:
+            -   name: Get Build and Tests Artifacts
+                uses: actions/download-artifact@v4
+                with:
+                    name: dist
+
+            -   name: Print
+                run: ls
+
+
+
