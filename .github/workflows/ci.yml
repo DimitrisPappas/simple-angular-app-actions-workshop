@@ -40,8 +40,8 @@ jobs:
             -   name: Print 
                 run: ls -la
 
-    tests:
-        name: Run Tests
+    test-A:
+        name: Run Tests on Ubuntu
         needs: build
         runs-on: ubuntu-22.04
         steps:
@@ -69,9 +69,38 @@ jobs:
                 env: 
                     CHROME_BIN: /usr/bin/chromium-browser
 
+    test-B:
+        name: Run Tests on Windows
+        needs: build
+        runs-on: windows-latest
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v3
+            
+            -   name: Install NodeJS
+                uses: actions/setup-node@v3
+                with: 
+                    node-version: 18
+
+            -   name: Install Packages
+                run: npm ci
+            
+            -   name: Install Angular CLI
+                run: npm install -g @angular/cli
+            
+            -   name: Install Dependencies
+                run: | 
+                    sudo apt-get update
+
+            -   name: Run specs tests
+                run: | 
+                    CHROME_BIN=$(whict chromium) ng test --browsers=ChromeHeadless --watch=false
+                env: 
+                    CHROME_BIN: /usr/bin/chromium-browser
+
     deploy:
         name: Deploy
-        needs: [build, tests]
+        needs: [build, test-A]
         runs-on: ubuntu-22.04
         steps:
             -   name: Get Build and Tests Artifacts
