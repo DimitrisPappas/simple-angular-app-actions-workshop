@@ -93,11 +93,8 @@ jobs:
             -   name: Install Angular CLI
                 run: npm install -g @angular/cli
             
-            -   name: Install Dependencies
-                run: | 
-                    Install-Module -Name PSWindowsUpdate
-                    Get-WindowsUpdate
-                    Install-WindowsUpdate
+            -   name: Run Test
+                run: npm test
 
 
             -   name: Run specs tests
