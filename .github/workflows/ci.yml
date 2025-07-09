@@ -92,10 +92,6 @@ jobs:
             
             -   name: Install Angular CLI
                 run: npm install -g @angular/cli
-            
-            -   name: Run Test
-                run: npm test
-
 
             -   name: Run specs tests
                 run: | 
