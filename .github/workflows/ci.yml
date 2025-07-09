@@ -29,6 +29,9 @@ jobs:
                 run: | 
                     sudo apt-get update
 
+            -   name: Build
+                run: ng build
+
             -   name: Upload Artifacts
                 uses: actions/upload-artifact@v4
                 with:
@@ -65,7 +68,7 @@ jobs:
 
             -   name: Run specs tests
                 run: | 
-                    CHROME_BIN=$(whict chromium) ng test --browsers=ChromeHeadless --watch=false
+                    CHROME_BIN=$(which chromium) ng test --browsers=ChromeHeadless --watch=false
                 env: 
                     CHROME_BIN: /usr/bin/chromium-browser
 
@@ -95,9 +98,9 @@ jobs:
 
             -   name: Run specs tests
                 run: | 
-                    CHROME_BIN=$(whict chromium) ng test --browsers=ChromeHeadless --watch=false
+                    CHROME_BIN=$(which chromium) ng test --browsers=ChromeHeadless --watch=false
                 env: 
-                    CHROME_BIN: /usr/bin/chromium-browser
+                    CHROME_BIN: C:/Program Files/Google/Chrome/Application/chrome.exe
 
     deploy:
         name: Deploy
