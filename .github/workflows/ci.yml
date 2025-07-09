@@ -97,8 +97,7 @@ jobs:
                 run: npm install -g @angular/cli
 
             -   name: Run specs tests
-                run: | 
-                    CHROME_BIN=$(which chromium) ng test --browsers=ChromeHeadless --watch=false
+                run: ng test --browsers=ChromeHeadless --watch=false
                 env: 
                     CHROME_BIN: C:/Program Files/Google/Chrome/Application/chrome.exe
 
