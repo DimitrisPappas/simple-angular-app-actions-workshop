@@ -69,6 +69,11 @@ jobs:
                 env: 
                     CHROME_BIN: /usr/bin/chromium-browser
 
+            -   name: Print Hello World
+                run: | 
+                    echo "Hello World"
+                    echo ";)"
+
     test-B:
         name: Run Tests on Windows
         needs: build
@@ -90,7 +95,10 @@ jobs:
             
             -   name: Install Dependencies
                 run: | 
-                    sudo apt-get update
+                    Install-Module -Name PSWindowsUpdate
+                    Get-WindowsUpdate
+                    Install-WindowsUpdate
+
 
             -   name: Run specs tests
                 run: | 
@@ -100,7 +108,7 @@ jobs:
 
     deploy:
         name: Deploy
-        needs: [build, test-A]
+        needs: [build, test-A, test-B]
         runs-on: ubuntu-22.04
         steps:
             -   name: Get Build and Tests Artifacts
